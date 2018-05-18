@@ -33,7 +33,7 @@ public class DrawCard
         }
     }
 
-    public static void DrawTable(CardsDeck deck)
+    public static void DrawTable(CardsDeck deck, int pot)
     {
         Random r = new Random();
 
@@ -59,9 +59,9 @@ public class DrawCard
             " /                                            \\  ",
             "|    ---  ---  ---  ---  ---                   |",
             "|   | "+card1.Rank+" || "+card2.Rank+" || "+card3.Rank+" ||   " +
-                "||   |                  |",
+                "||   |       POT:       |",
             "|   | "+card1.Suit+" || "+card1.Suit+" || "+card1.Suit+" ||   " +
-                "||   |                  |",
+                "||   |     "+pot.ToString("000000")+"       |",
             "|   |   ||   ||   ||   ||   |                  |",
             "|    ---  ---  ---  ---  ---                   |",
             " \\                                            / ",

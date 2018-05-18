@@ -8,7 +8,7 @@ public class GameScreen
     private Card Card;
     private CardsDeck Deck { get; set; }
     private int round;
-    private int pot;
+    public int pot;
 
     public GameScreen(Player player)
     {
@@ -16,7 +16,7 @@ public class GameScreen
     }
 
     // Created the structure to choose the movements
-    public void Movements()
+    public void Movements(int amount)
     {
         Console.SetCursorPosition(0,20);
         Console.Write("Movements: ");
@@ -42,14 +42,9 @@ public class GameScreen
                     player.Call();
                     Console.Clear();
                     break;
-                case "bet":
-                    Console.Clear();
-                    player.Bet+=50;
-                    Console.Clear();
-                    break;
                 case "raise":
                     Console.Clear();
-                    player.Raise(50);
+                    player.Raise();
                     Console.Clear();
                     break;
                 default:
@@ -105,7 +100,7 @@ public class GameScreen
         Console.WriteLine("Chips: "+player1.Chips);
         DrawCard.Draw(player1,Deck);
 
-        DrawCard.DrawTable(Deck);
+        DrawCard.DrawTable(Deck, pot);
 
 
         GameLoop();
@@ -118,12 +113,12 @@ public class GameScreen
         do
         {
             //1-Check user input
-            Movements();
+            Movements(50);
 
             //2-Check collision
 
             //3-Draw
-            DrawCard.DrawTable(Deck);
+            DrawCard.DrawTable(Deck, pot);
 
         } while (true);
     }

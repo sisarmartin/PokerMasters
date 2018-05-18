@@ -27,9 +27,13 @@ public class Player
         Chips = 20000;
     }
 
-    public void Raise(int amount)
+    public int Raise()
     {
-        // To do
+        Console.Write("How many chips do you want to raise?");
+        int amount = Convert.ToInt32(Console.ReadLine());
+        Chips = Chips - amount;
+        return amount;
+        //DrawCard.DrawTable();
     }
 
     public void Check()

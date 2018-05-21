@@ -28,16 +28,23 @@ public class WelcomeScreen
     }
 
     // We asked the user his name of the game
-    public string UserName()
+    public string[] UserName()
     {
-        string name;
-        do
+        Console.Write("Enter a number of players: ");
+        int nPlayers = Convert.ToInt32(Console.ReadLine());
+
+
+        string[] name = new string[nPlayers];
+        for (int i = 0; i < nPlayers; i++)
         {
-            Console.WriteLine("Enter your user name: ");
-            name = Console.ReadLine();
-        } while (name == "");
-        Console.Clear();
-        Console.WriteLine("Welcome to PokerMasters {0}!", name);
+            do
+            {
+                Console.WriteLine("Enter your user name #" + (i + 1) + ": ");
+                name[i] = Console.ReadLine();
+            } while (name[i] == "");
+            Console.Clear();
+            Console.WriteLine("Welcome to PokerMasters {0}!", name[i]);
+        }
         return name;
     }
 
@@ -49,7 +56,7 @@ public class WelcomeScreen
         HiScoreScreen HiScore;
         RulesScreen Rules;
 
-        string name = UserName();
+        string[] name = UserName();
         ShowMenu();
 
         string option = Console.ReadLine();
@@ -61,13 +68,13 @@ public class WelcomeScreen
             {
                 case "1":
                     Console.Clear();
-                    Game = new GameScreen(Player);
+                    Game = new GameScreen();
                     Game.Run(name);
                     Console.Clear();
                     break;
                 case "2":
                     Console.Clear();
-                    Game = new GameScreen(Player);
+                    Game = new GameScreen();
                     Game.Run(name);
                     Console.Clear();
                     break;
@@ -108,6 +115,7 @@ public class WelcomeScreen
     // Main loop of the welcome screen
     public static void Main()
     {
+        Console.SetWindowSize(140, 35);
         WelcomeScreen Welcome = new WelcomeScreen();
         Title();
         Welcome.Display();

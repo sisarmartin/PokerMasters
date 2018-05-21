@@ -1,18 +1,26 @@
 ﻿using System;
+using System.Collections.Generic;
 
 public class GameScreen
 {
-    public Player player { get; set; }
+    public struct Positions
+    {
+        public int X;
+        public int Y;
+    }
+    public List<Player> Players { get; set; }
     private Hand Hand { get; set; }
     private int currentPlayer;
     private Card Card;
     private CardsDeck Deck { get; set; }
     private int round;
     public int pot;
+    public int Index { get; set; }
 
-    public GameScreen(Player player)
+    public GameScreen()
     {
-        this.player = player;
+        Players = new List<Player>();
+        Index = 0;
     }
 
     // Created the structure to choose the movements
@@ -29,23 +37,23 @@ public class GameScreen
             {
                 case "fold":
                     //Console.Clear();
-                    player.Fold();
+                    Players[Index].Fold();
                     //Console.Clear();
                     break;
                 case "check":
                     Console.Clear();
-                    player.Check();
+                    Players[Index].Check();
                     Console.Clear();
                     break;
                 case "call":
                     Console.Clear();
-                    player.Call();
+                    Players[Index].Call();
                     Console.Clear();
                     break;
                 case "raise":
-                    Console.Clear();
-                    player.Raise();
-                    Console.Clear();
+                    //Console.Clear();
+                    Players[Index].Raise();
+                    //Console.Clear();
                     break;
                 default:
                     Console.Clear();
@@ -79,45 +87,73 @@ public class GameScreen
         Console.WriteLine();
     }
 
-    public void Run(string name)
+    public void Run(string[] names)
     {
         Deck = new CardsDeck();
 
         ShowMenu();
         // Position for username #1 with name in game and chips
-        Hand hand = new Hand();
-        hand.Position();
+        /*Hand hand = new Hand();
+        hand.Position();*/
+        Positions[] positions = new Positions[6];
+        positions[0].X = 10;
+        positions[0].Y = 5;
+        positions[1].X = 55;
+        positions[1].Y = 5;
+        positions[2].X = 95;
+        positions[2].Y = 5;
+        positions[3].X = 10;
+        positions[3].Y = 30;
+        positions[4].X = 55;
+        positions[4].Y = 30;
+        positions[5].X = 95;
+        positions[5].Y = 30;
 
-        
-        Player player1 = new Player(name);
-        player1.X = 0;
-        player1.Y = 15;
-        player1.UserName = name;
+        for (int i = 0; i < names.Length; i++)
+        {
+            Player player = new Player(names[i]);
+            //player.X = 0;
+            //player.Y = 15;
 
-        Console.SetCursorPosition(player1.X, player1.Y-2);
-        Console.WriteLine("Name: "+player1.UserName);
-        Console.SetCursorPosition(player1.X, player1.Y - 1);
-        Console.WriteLine("Chips: "+player1.Chips);
-        DrawCard.Draw(player1,Deck);
+            player.UserName = names[i];
+            Players.Add(player);
+        }
+
+        for (int i = 0; i < Players.Count; i++)
+        {
+            //Players[i].X
+            Console.SetCursorPosition(positions[i].X, positions[i].Y );
+            Console.WriteLine("Name: " + Players[i].UserName);
+            Console.SetCursorPosition(positions[i].X, positions[i].Y );
+            Console.WriteLine("Chips: " + Players[i].Chips);
+            DrawCard.Draw(Players[i], Deck);
+        }
 
         DrawCard.DrawTable(Deck, pot);
 
-
         GameLoop();
-
-        // To do
     }
 
     public void GameLoop()
     {
         do
         {
-            //1-Check user input
+            //1 Check user input
             Movements(50);
 
-            //2-Check collision
+            //2 Movements
+            if (Index < Players.Count)
+            {
+                Index++;
+            }
+            else
+            {
+                Index = 0;
+            }
 
-            //3-Draw
+            //3 Check collision
+
+            //4 Draw
             DrawCard.DrawTable(Deck, pot);
 
         } while (true);

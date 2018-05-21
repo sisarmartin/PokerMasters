@@ -10,8 +10,8 @@ public class ConsoleUpgrade : Hand
     // You should assign a different position for each player.
     public void Position()
     {
-        xHand = xHand + 10;
-        yHand = yHand + 10;
+        //xHand = xHand + 10;
+        //yHand = yHand + 10;
     }
 
     //Write the player's characteristics to the right of the welcome screen.

@@ -70,7 +70,7 @@ public class DrawCard
 
         for (int i = 0; i < table.Length; i++)
         {
-            Console.SetCursorPosition(0, 2+i);
+            Console.SetCursorPosition(40, 12+i);
             Console.WriteLine(table[i]);
         }
     }

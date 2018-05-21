@@ -8,6 +8,7 @@ public class Player
     public Card[] cards;
     public int X { get; set; }
     public int Y { get; set; }
+    public int Pot { get; set; }
     private bool isInPlay;
     private bool isAbsent;
     private bool bigBlind;
@@ -32,22 +33,23 @@ public class Player
         Console.Write("How many chips do you want to raise?");
         int amount = Convert.ToInt32(Console.ReadLine());
         Chips = Chips - amount;
+        Pot = amount;
         return amount;
         //DrawCard.DrawTable();
     }
 
     public void Check()
     {
-        // To do
+        Console.WriteLine("You checked.");
     }
 
     public void Call()
     {
-        // To do
+        Console.WriteLine("You called.");
     }
 
     public void Fold()
     {
-        // To do
+        Console.WriteLine("You folded");
     }
 }

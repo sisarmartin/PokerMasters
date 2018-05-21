@@ -8,6 +8,7 @@ public class GameScreen
         public int X;
         public int Y;
     }
+
     public List<Player> Players { get; set; }
     private Hand Hand { get; set; }
     private int currentPlayer;
@@ -26,8 +27,8 @@ public class GameScreen
     // Created the structure to choose the movements
     public void Movements(int amount)
     {
-        Console.SetCursorPosition(0,20);
-        Console.Write("Movements: ");
+        Console.SetCursorPosition(0,32);
+        Console.Write("Movement: ");
         string move = Console.ReadLine();
         bool exit = false;
 
@@ -53,7 +54,9 @@ public class GameScreen
                 case "raise":
                     //Console.Clear();
                     Players[Index].Raise();
-                    //Console.Clear();
+                    Console.Clear();
+                    DrawCard.DrawTable(Deck, pot);
+                    DrawCard.Draw(Players, Deck);
                     break;
                 default:
                     Console.Clear();
@@ -97,17 +100,17 @@ public class GameScreen
         hand.Position();*/
         Positions[] positions = new Positions[6];
         positions[0].X = 10;
-        positions[0].Y = 5;
+        positions[0].Y = 10;
         positions[1].X = 55;
-        positions[1].Y = 5;
+        positions[1].Y = 10;
         positions[2].X = 95;
-        positions[2].Y = 5;
+        positions[2].Y = 10;
         positions[3].X = 10;
-        positions[3].Y = 30;
+        positions[3].Y = 35;
         positions[4].X = 55;
-        positions[4].Y = 30;
+        positions[4].Y = 35;
         positions[5].X = 95;
-        positions[5].Y = 30;
+        positions[5].Y = 35;
 
         for (int i = 0; i < names.Length; i++)
         {
@@ -126,7 +129,7 @@ public class GameScreen
             Console.WriteLine("Name: " + Players[i].UserName);
             Console.SetCursorPosition(positions[i].X, positions[i].Y );
             Console.WriteLine("Chips: " + Players[i].Chips);
-            DrawCard.Draw(Players[i], Deck);
+            DrawCard.Draw(Players, Deck);
         }
 
         DrawCard.DrawTable(Deck, pot);

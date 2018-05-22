@@ -70,8 +70,11 @@ public class CardsDeck
         // To do
     }
 
-    public void Burn()
+    public void Burn(CardsDeck deck)
     {
-        // To do
+        Random r = new Random();
+
+        int number = r.Next(0, deck.Count);
+        deck.Cards.RemoveAt(number);
     }
 }

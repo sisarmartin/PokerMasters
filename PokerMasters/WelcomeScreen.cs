@@ -30,10 +30,14 @@ public class WelcomeScreen
     // We asked the user his name of the game
     public string[] UserName()
     {
-        Console.Write("Enter a number of players: ");
-        int nPlayers = Convert.ToInt32(Console.ReadLine());
+        int nPlayers;
+        do
+        {
+            Console.Write("Enter a number of players 1-6: ");
+            nPlayers = Convert.ToInt32(Console.ReadLine());
 
-
+        } while (!(nPlayers >= 1 && nPlayers <= 6));
+        
         string[] name = new string[nPlayers];
         for (int i = 0; i < nPlayers; i++)
         {
@@ -115,6 +119,7 @@ public class WelcomeScreen
     // Main loop of the welcome screen
     public static void Main()
     {
+	// Established Windows Size
         Console.SetWindowSize(140, 35);
         WelcomeScreen Welcome = new WelcomeScreen();
         Title();

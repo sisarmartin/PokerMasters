@@ -9,12 +9,13 @@ public class Player
     public int X { get; set; }
     public int Y { get; set; }
     public int Pot { get; set; }
+    // Atributes to asign
     private bool isInPlay;
     private bool isAbsent;
     private bool bigBlind;
     private bool smallBlind;
     private bool dealer;
-
+    
     public Player()
     {
         cards = new Card[2];
@@ -35,7 +36,6 @@ public class Player
         Chips = Chips - amount;
         Pot = amount;
         return amount;
-        //DrawCard.DrawTable();
     }
 
     public void Check()

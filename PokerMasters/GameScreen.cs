@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
+using System.Diagnostics;
 
 public class GameScreen
 {
@@ -25,10 +27,11 @@ public class GameScreen
     }
 
     // Created the structure to choose the movements
-    public void Movements(int amount)
+    public void Movements()
     {
-        Console.SetCursorPosition(0,32);
-        Console.Write("Movement: ");
+        Console.SetCursorPosition(0,30);
+        Console.WriteLine("FOLD / CHECK / CALL / RAISE");
+        Console.Write(Players[Index].UserName+", enter a option: ");
         string move = Console.ReadLine();
         bool exit = false;
 
@@ -37,36 +40,28 @@ public class GameScreen
             switch (move.ToLower())
             {
                 case "fold":
-                    //Console.Clear();
                     Players[Index].Fold();
-                    //Console.Clear();
                     break;
                 case "check":
-                    Console.Clear();
                     Players[Index].Check();
-                    Console.Clear();
                     break;
                 case "call":
-                    Console.Clear();
                     Players[Index].Call();
-                    Console.Clear();
                     break;
                 case "raise":
-                    //Console.Clear();
-                    Players[Index].Raise();
-                    Console.Clear();
-                    DrawCard.DrawTable(Deck, pot);
-                    DrawCard.Draw(Players, Deck);
+                    pot += Players[Index].Raise();
                     break;
                 default:
-                    Console.Clear();
+                    Console.SetCursorPosition(0, 33);
+                    Console.WriteLine(new string(' ', 100));
+                    Console.SetCursorPosition(0, 0);
                     ShowMenu();
-                    Console.WriteLine();
+                    Console.SetCursorPosition(0, 32);
                     Console.WriteLine("Enter a correct option!");
                     move = Console.ReadLine();
                     break;
             }
-        } while (!exit);
+        } while (exit);
     }
     
     public void Flop()
@@ -86,54 +81,42 @@ public class GameScreen
 
     public void ShowMenu()
     {
+        Console.SetCursorPosition(55, 0);
         Console.WriteLine("-------- Play Local --------");
         Console.WriteLine();
     }
-
+    
     public void Run(string[] names)
     {
         Deck = new CardsDeck();
 
         ShowMenu();
         // Position for username #1 with name in game and chips
-        /*Hand hand = new Hand();
-        hand.Position();*/
         Positions[] positions = new Positions[6];
-        positions[0].X = 10;
-        positions[0].Y = 10;
-        positions[1].X = 55;
-        positions[1].Y = 10;
-        positions[2].X = 95;
-        positions[2].Y = 10;
-        positions[3].X = 10;
-        positions[3].Y = 35;
-        positions[4].X = 55;
-        positions[4].Y = 35;
-        positions[5].X = 95;
-        positions[5].Y = 35;
+        positions[0].X = 20;
+        positions[0].Y = 8;
+        positions[1].X = 60;
+        positions[1].Y = 8;
+        positions[2].X = 100;
+        positions[2].Y = 8;
+        positions[3].X = 20;
+        positions[3].Y = 27;
+        positions[4].X = 60;
+        positions[4].Y = 27;
+        positions[5].X = 100;
+        positions[5].Y = 27;
 
         for (int i = 0; i < names.Length; i++)
         {
             Player player = new Player(names[i]);
-            //player.X = 0;
-            //player.Y = 15;
 
             player.UserName = names[i];
             Players.Add(player);
         }
 
-        for (int i = 0; i < Players.Count; i++)
-        {
-            //Players[i].X
-            Console.SetCursorPosition(positions[i].X, positions[i].Y );
-            Console.WriteLine("Name: " + Players[i].UserName);
-            Console.SetCursorPosition(positions[i].X, positions[i].Y );
-            Console.WriteLine("Chips: " + Players[i].Chips);
-            DrawCard.Draw(Players, Deck);
-        }
-
+        DrawCard.Draw(Players, Deck);
         DrawCard.DrawTable(Deck, pot);
-
+        
         GameLoop();
     }
 
@@ -141,23 +124,28 @@ public class GameScreen
     {
         do
         {
-            //1 Check user input
-            Movements(50);
-
-            //2 Movements
-            if (Index < Players.Count)
+            for (int i = 0; i < Players.Count; i++)
             {
-                Index++;
+                //1 Check user input
+                Movements();
+                 
+                //2 Movements
+                if (Index < Players.Count)
+                {
+                    Index++;
+                    // Sound to inform about the turn of another player
+                    Console.Beep(600, 1000);
+                    //Update Pot
+                    DrawCard.DrawTable(Deck, pot);
+                    DrawCard.Draw(Players, Deck);
+                }
+                else
+                {
+                    Index = 0;
+                }
             }
-            else
-            {
-                Index = 0;
-            }
-
-            //3 Check collision
-
-            //4 Draw
-            DrawCard.DrawTable(Deck, pot);
+            // Update cards after the turn
+            //DrawCard.Draw(Players, Deck);
 
         } while (true);
     }

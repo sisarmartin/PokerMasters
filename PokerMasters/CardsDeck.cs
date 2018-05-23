@@ -55,9 +55,18 @@ public class CardsDeck
         // To do
     }
 
+    // Reset list of cards (deck of cards)
     public void Shuffle()
     {
-        // To do
+        Random r = new Random();
+
+        for (int i = Cards.Count - 1; i > 0; i--)
+        {
+            int n = r.Next(i + 1);
+            Card temp = Cards[i];
+            Cards[i] = Cards[n];
+            Cards[n] = temp;
+        }
     }
 
     public void Reset()

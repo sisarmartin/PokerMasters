@@ -31,7 +31,7 @@ public class Player
 
     public int Raise()
     {
-        Console.Write("How many chips do you want to raise?");
+        Console.Write("Chips to raise: ");
         int amount = Convert.ToInt32(Console.ReadLine());
         Chips = Chips - amount;
         Pot = amount;

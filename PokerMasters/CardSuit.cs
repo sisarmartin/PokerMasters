@@ -1,7 +1,7 @@
 ﻿public enum Suit
 {
-    S,
-    H,
-    C,
-    D
+    S = 3,
+    H = 2,
+    C = 1,
+    D = 0
 }

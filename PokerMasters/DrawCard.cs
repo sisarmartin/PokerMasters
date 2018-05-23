@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 public class DrawCard
 {
+    private GameScreen Game { get; set; }
     public struct Positions
     {
         public int X;
@@ -63,42 +64,30 @@ public class DrawCard
     // Draw a table game with cards.
     public static void DrawTable(CardsDeck deck, int pot)
     {
-        Random r = new Random();
-
-        int number = r.Next(0, deck.Count);
-        Card card1 = deck.Cards[number];
-        deck.Cards.RemoveAt(number);
-
-        number = r.Next(0, deck.Count);
-        Card card2 = deck.Cards[number];
-        deck.Cards.RemoveAt(number);
-
-        number = r.Next(0, deck.Count);
-        Card card3 = deck.Cards[number];
-        deck.Cards.RemoveAt(number);
-
-        // Burn
-        deck.Burn(deck);
-        
         string[] table =
         {
             "  --------------------------------------------   ",
             " /                                            \\  ",
             "|    ---  ---  ---  ---  ---                   |",
-            "|   | "+card1.Rank+" || "+card2.Rank+" || "+card3.Rank+" ||   " +
-                "||   |       POT:       |",
-            "|   | "+card1.Suit+" || "+card1.Suit+" || "+card1.Suit+" ||   " +
-                "||   |     "+pot.ToString("000000")+"       |",
+            "|   |   ||   ||   ||   ||   |       POT:       |",
+            "|   |   ||   ||   ||   ||   |     "+pot.ToString("000000")+
+            "       |",
             "|   |   ||   ||   ||   ||   |                  |",
             "|    ---  ---  ---  ---  ---                   |",
             " \\                                            / ",
             "  --------------------------------------------   ",
         };
-
+        
         for (int i = 0; i < table.Length; i++)
         {
             Console.SetCursorPosition(45, 12+i);
             Console.WriteLine(table[i]);
         }
+    }
+
+    public static void DrawResult(List<Player> Players)
+    {
+        Console.SetCursorPosition(110, 13);
+        Console.WriteLine(Players[0].UserName+" wins!");
     }
 }

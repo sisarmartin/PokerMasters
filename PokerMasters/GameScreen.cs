@@ -14,9 +14,10 @@ public class GameScreen
     private int currentPlayer;
     private Card Card;
     private CardsDeck Deck { get; set; }
-    private int round;
+    private int round = 0;
     public int pot;
     public int Index { get; set; }
+    private bool allIsPlay = false;
 
     public GameScreen()
     {
@@ -66,14 +67,20 @@ public class GameScreen
                     Console.WriteLine(new string(' ', 100));
                     break;
                 default:
-                    Console.SetCursorPosition(0, 33);
+                    Console.SetCursorPosition(0, 31);
                     Console.WriteLine(new string(' ', 100));
-                    Console.SetCursorPosition(0, 0);
-                    ShowMenu();
                     Console.SetCursorPosition(0, 32);
-                    Console.WriteLine("Enter a correct option!");
-                    move = Console.ReadLine();
+                    Console.WriteLine(new string(' ', 100));
+                    Movements();
                     break;
+            }
+
+            for (int i = 0; i < Players.Count - 1; i++)
+            {
+                if (move != "1")
+                {
+                    allIsPlay = true;
+                }
             }
         } while (exit);
     }
@@ -194,32 +201,98 @@ public class GameScreen
     {
         do
         {
-            for (int i = 0; i < Players.Count; i++)
+            do
             {
-                //1 Check user input
-                Movements();
-                
-                //2 Movements
-                if (Index < Players.Count)
+                for (int i = 0; i < Players.Count - 1; i++)
                 {
-                    Index++;
-                    // Sound to inform about the turn of another player
-                    Console.Beep(600, 1000);
-                    //Update Pot
-                    DrawCard.DrawTable(Deck, pot);
+                    //1 Check user input
+                    Movements();
+
+                    //2 Movements
+                    if (Index < Players.Count - 1)
+                    {
+                        Index++;
+                        // Sound to inform about the turn of another player
+                        Console.Beep(600, 1000);
+                        //Update Pot
+                        DrawCard.DrawTable(Deck, pot);
+                        DrawCard.UpdateChips(Players);
+                    }
+                    else
+                    {
+                        Index = 0;
+                    }
+
+                    // 3 firsts cards of the middle
+                    if (allIsPlay)
+                    {
+                        Flop(Deck);
+                        Movements();
+
+                        if (Index < Players.Count - 1)
+                        {
+                            Index++;
+                            Console.Beep(600, 1000);
+                            DrawCard.DrawTable(Deck, pot);
+                            DrawCard.UpdateChips(Players);
+                        }
+                        else
+                        {
+                            Index = 0;
+                        }
+                    }
+                    else
+                    {
+                        allIsPlay = false;
+                    }
+
+                    // 1 card of the middle
+                    if (allIsPlay)
+                    {
+                        Turn(Deck);
+                        Movements();
+
+                        if (Index < Players.Count - 1)
+                        {
+                            Index++;
+                            Console.Beep(600, 1000);
+                            DrawCard.DrawTable(Deck, pot);
+                            DrawCard.UpdateChips(Players);
+                        }
+                        else
+                        {
+                            Index = 0;
+                        }
+                    }
+                    else
+                    {
+                        allIsPlay = false;
+                    }
+
+                    // The last card of the middle
+                    if (allIsPlay)
+                    {
+                        River(Deck);
+                        Movements();
+
+                        if (Index < Players.Count - 1)
+                        {
+                            Index++;
+                            Console.Beep(600, 1000);
+                            DrawCard.DrawTable(Deck, pot);
+                            DrawCard.UpdateChips(Players);
+                        }
+                        else
+                        {
+                            Index = 0;
+                        }
+                    }
+                    else
+                    {
+                        allIsPlay = false;
+                    }
                 }
-                else
-                {
-                    Index = 0;
-                }
-                // 3 firsts cards of the middle
-                if (Index == Players.Count)
-                {
-                    Flop(Deck);
-                    Index = 0;
-                    i = 0;
-                }
-            }
+            } while (!allIsPlay);
 
             for (int timesToShuffle = 0; timesToShuffle < 10; timesToShuffle++)
             {
@@ -229,6 +302,7 @@ public class GameScreen
             // Update cards after the turn
             DrawCard.Draw(Players, Deck);
             DrawCard.DrawResult(Players);
+            round++;
 
         } while (true);
     }

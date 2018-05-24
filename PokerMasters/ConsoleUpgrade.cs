@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 
 public class ConsoleUpgrade : Hand
 {
+    public List<Player> Players { get; set; }
+
     public ConsoleUpgrade()
     {
     }
@@ -26,52 +29,48 @@ public class ConsoleUpgrade : Hand
     {
         StreamReader inFile;
         StreamWriter outFile;
+        DateTime now = DateTime.Now;
         string line;
-
-        Console.Write("Enter file name: ");
-        string fileName = Console.ReadLine();
-
+        
         if (!File.Exists("config.txt"))
         {
-            Console.WriteLine("File not found!");
-            return;
+            Console.WriteLine();
         }
-
-        try
+        else
         {
-            inFile = File.OpenText("config.txt");
-            outFile = File.CreateText("config.txt");
-            do
+            try
             {
-                line = inFile.ReadLine();
-                if (line != null)
-                {
-                    // TO DO
-                }
-            } while (line != null);
-            inFile.Close();
-            outFile.Close();
+                outFile = File.AppendText("config.txt");
+                
+                        for (int i = 0; i < Players.Count; i++)
+                        {
+                            outFile.WriteLine(now + Players[i].UserName +
+                                " " + Players[i].Chips);
+                        }
+                
+                outFile.Close();
+            }
+            catch (PathTooLongException)
+            {
+                Console.WriteLine("Entered path was too long.");
+                return;
+            }
+            catch (FileNotFoundException)
+            {
+                Console.WriteLine("File not found.");
+                return;
+            }
+            catch (IOException exp)
+            {
+                Console.WriteLine("Input/output error: {0}", exp.Message);
+                return;
+            }
+            catch (Exception exp)
+            {
+                Console.WriteLine("Unexpected error: {0}", exp.Message);
+                return;
+            }
+            Console.WriteLine("Extraction finished");
         }
-        catch (PathTooLongException)
-        {
-            Console.WriteLine("Entered path was too long.");
-            return;
-        }
-        catch (FileNotFoundException)
-        {
-            Console.WriteLine("File not found.");
-            return;
-        }
-        catch (IOException exp)
-        {
-            Console.WriteLine("Input/output error: {0}", exp.Message);
-            return;
-        }
-        catch (Exception exp)
-        {
-            Console.WriteLine("Unexpected error: {0}", exp.Message);
-            return;
-        }
-        Console.WriteLine("Extraction finished");
     }
 }

@@ -26,7 +26,7 @@ public class WelcomeScreen
         Console.WriteLine("Q.- Exit");
         Console.WriteLine();
     }
-
+    
     // We asked the user his name of the game
     public string[] UserName()
     {
@@ -59,13 +59,16 @@ public class WelcomeScreen
         CreditsScreen Credits;
         HiScoreScreen HiScore;
         RulesScreen Rules;
+        ConsoleUpgrade console = new ConsoleUpgrade();
+
+        console.CreateConfig();
 
         string[] name = UserName();
         ShowMenu();
 
         string option = Console.ReadLine();
         bool exit = false;
-
+        
         do
         {
             switch (option.ToUpper())

@@ -59,6 +59,48 @@ public class DrawCard
             Console.SetCursorPosition(positions[i].X, positions[i].Y - 1);
             Console.WriteLine("Chips: " + Players[i].Chips);
         }
+        // Big Blind
+        Random rand = new Random();
+        int bigBlind = rand.Next(0, Players.Count - 1);
+        Console.SetCursorPosition(positions[bigBlind].X + 14,
+            positions[bigBlind].Y + 2);
+        Console.WriteLine("B");
+
+        // Small Blind
+        if (Players.Count == 2)
+        {
+            bigBlind = rand.Next(0, Players.Count - 1);
+            Console.SetCursorPosition(positions[bigBlind + 1].X + 14,
+                positions[bigBlind + 1].Y + 2);
+            Console.WriteLine("B");
+        }
+        bigBlind = rand.Next(0, Players.Count - 1);
+        Console.SetCursorPosition(positions[bigBlind].X + 14,
+            positions[bigBlind].Y + 2);
+        Console.WriteLine("S");
+
+    }
+
+    public static void UpdateChips(List<Player> Players)
+    {
+        Positions[] positions = new Positions[6];
+        positions[0].X = 20;
+        positions[0].Y = 5;
+        positions[1].X = 60;
+        positions[1].Y = 5;
+        positions[2].X = 100;
+        positions[2].Y = 5;
+        positions[3].X = 20;
+        positions[3].Y = 25;
+        positions[4].X = 60;
+        positions[4].Y = 25;
+        positions[5].X = 100;
+        positions[5].Y = 25;
+        for (int i = 0; i < Players.Count; i++)
+        {
+            Console.SetCursorPosition(positions[i].X, positions[i].Y - 1);
+            Console.WriteLine("Chips: " + Players[i].Chips);
+        }
     }
 
     // Draw a table game with cards.
@@ -83,6 +125,12 @@ public class DrawCard
             Console.SetCursorPosition(45, 12+i);
             Console.WriteLine(table[i]);
         }
+    }
+    
+    public static void DrawSmallBlind()
+    {
+        Console.SetCursorPosition(23, 7);
+        Console.WriteLine("S");
     }
 
     public static void DrawResult(List<Player> Players)

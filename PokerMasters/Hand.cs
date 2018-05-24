@@ -6,6 +6,7 @@ public class Hand
     // A list of cards has been made in the hand class and the AddCard method
     // has been created to add cards to the hand
     protected List<Card> cards = new List<Card>();
+    public List<Player> Players { get; set; }
     public bool isPair = false;
     public bool isTwoPair = false;
     public bool isThreeKind = false;
@@ -24,7 +25,7 @@ public class Hand
     // Established position where stay the hand of player #1
     public void HighCard()
     {
-        
+
     }
 
     public void Pair()

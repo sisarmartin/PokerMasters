@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 public class GameScreen
 {
+    WelcomeScreen Welcome = new WelcomeScreen();
+
     public struct Positions
     {
         public int X;
@@ -11,13 +13,13 @@ public class GameScreen
 
     public List<Player> Players { get; set; }
     private Hand Hand { get; set; }
-    private int currentPlayer;
     private Card Card;
     private CardsDeck Deck { get; set; }
     private int round = 0;
     public int pot;
     public int Index { get; set; }
     private bool allIsPlay = false;
+    public Card[] Cards = new Card[5];
 
     public GameScreen()
     {
@@ -36,7 +38,7 @@ public class GameScreen
 
         do
         {
-            switch (move.ToLower())
+            switch (move.ToUpper())
             {
                 case "1":
                     Players[Index].Fold();
@@ -66,6 +68,11 @@ public class GameScreen
                     Console.SetCursorPosition(0, 32);
                     Console.WriteLine(new string(' ', 100));
                     break;
+                case "Q":
+                    exit = true;
+                        Console.Clear();
+                        Welcome.Display();
+                    break;
                 default:
                     Console.SetCursorPosition(0, 31);
                     Console.WriteLine(new string(' ', 100));
@@ -75,14 +82,20 @@ public class GameScreen
                     break;
             }
 
-            for (int i = 0; i < Players.Count - 1; i++)
+        for (int i = 0; i < Players.Count - 1; i++)
             {
-                if (move != "1")
+                if ((Index == Players.Count - 1) && (move != "1"))
                 {
                     allIsPlay = true;
                 }
             }
         } while (exit);
+    }
+
+    public void ShowExit()
+    {
+        Console.SetCursorPosition(119, 32);
+        Console.WriteLine("Press Q to go back...");
     }
     
     public void Flop(CardsDeck deck)
@@ -118,6 +131,10 @@ public class GameScreen
         Console.Write(card3.Rank);
         Console.SetCursorPosition(61, 16);
         Console.Write(card3.Suit);
+
+        Cards[0] = card1;
+        Cards[1] = card2;
+        Cards[2] = card3;
     }
 
     public void Turn(CardsDeck deck)
@@ -135,6 +152,8 @@ public class GameScreen
         Console.Write(card1.Rank);
         Console.SetCursorPosition(66, 16);
         Console.Write(card1.Suit);
+        
+        Cards[3] = card1;
     }
 
     public void River(CardsDeck deck)
@@ -152,6 +171,30 @@ public class GameScreen
         Console.Write(card1.Rank);
         Console.SetCursorPosition(71, 16);
         Console.Write(card1.Suit);
+
+        Cards[4] = card1;
+    }
+
+    // Check of cards to know who is the winner of each round
+    public void CheckCards(List<Player> Players, CardsDeck deck)
+    {
+        List<Card> check = new List<Card>();
+        for (int i = 0; i < Players.Count; i++)
+        {
+            check.Add(Players[i].cards[0]);
+            check.Add(Players[i].cards[1]);
+            check.Add(deck.Cards[0]);
+            check.Add(deck.Cards[1]);
+            check.Add(deck.Cards[2]);
+            check.Add(deck.Cards[3]);
+            check.Add(deck.Cards[4]);
+
+            //Royal Flush #1
+            /*if (check.Contains())
+            {
+
+            }*/
+        }
     }
 
     public void ShowMenu()
@@ -191,18 +234,21 @@ public class GameScreen
             Players.Add(player);
         }
 
+        Console.Clear();
         DrawCard.Draw(Players, Deck);
-        DrawCard.DrawTable(Deck, pot);
+        DrawCard.DrawTable(Deck);
         
         GameLoop();
     }
 
     public void GameLoop()
     {
+        bool exit = false;
         do
         {
             do
             {
+                ShowExit();
                 for (int i = 0; i < Players.Count - 1; i++)
                 {
                     //1 Check user input
@@ -215,14 +261,13 @@ public class GameScreen
                         // Sound to inform about the turn of another player
                         Console.Beep(600, 1000);
                         //Update Pot
-                        DrawCard.DrawTable(Deck, pot);
-                        DrawCard.UpdateChips(Players);
+                        DrawCard.DrawPot(pot);
                     }
                     else
                     {
                         Index = 0;
                     }
-
+                    DrawCard.UpdateChips(Players);
                     // 3 firsts cards of the middle
                     if (allIsPlay)
                     {
@@ -233,7 +278,7 @@ public class GameScreen
                         {
                             Index++;
                             Console.Beep(600, 1000);
-                            DrawCard.DrawTable(Deck, pot);
+                            DrawCard.DrawPot(pot);
                             DrawCard.UpdateChips(Players);
                         }
                         else
@@ -256,7 +301,7 @@ public class GameScreen
                         {
                             Index++;
                             Console.Beep(600, 1000);
-                            DrawCard.DrawTable(Deck, pot);
+                            DrawCard.DrawPot(pot);
                             DrawCard.UpdateChips(Players);
                         }
                         else
@@ -279,7 +324,7 @@ public class GameScreen
                         {
                             Index++;
                             Console.Beep(600, 1000);
-                            DrawCard.DrawTable(Deck, pot);
+                            DrawCard.DrawPot(pot);
                             DrawCard.UpdateChips(Players);
                         }
                         else
@@ -304,6 +349,6 @@ public class GameScreen
             DrawCard.DrawResult(Players);
             round++;
 
-        } while (true);
+        } while (!exit);
     }
 }

@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 
 public class WelcomeScreen
 {
-    Player Player;
+    private List<Player> Players { get; set; }
 
     static void Title()
     {
@@ -30,23 +31,24 @@ public class WelcomeScreen
     // We asked the user his name of the game
     public string[] UserName()
     {
-        int nPlayers;
+        string nPlayers;
+
         do
         {
             Console.Write("Enter a number of players 1-6: ");
-            nPlayers = Convert.ToInt32(Console.ReadLine());
+            nPlayers = Console.ReadLine();    
+        } while (nPlayers != "1" && nPlayers != "2" && nPlayers != "3"
+         && nPlayers != "4" && nPlayers != "5" && nPlayers != "6");
 
-        } while (!(nPlayers >= 1 && nPlayers <= 6));
-        
-        string[] name = new string[nPlayers];
-        for (int i = 0; i < nPlayers; i++)
+        int nPlayer = Convert.ToInt32(nPlayers);
+        string[] name = new string[nPlayer];
+        for (int i = 0; i < nPlayer; i++)
         {
             do
             {
                 Console.WriteLine("Enter your user name #" + (i + 1) + ": ");
                 name[i] = Console.ReadLine();
             } while (name[i] == "");
-            Console.Clear();
             Console.WriteLine("Welcome to PokerMasters {0}!", name[i]);
         }
         return name;
@@ -61,9 +63,10 @@ public class WelcomeScreen
         RulesScreen Rules;
         ConsoleUpgrade console = new ConsoleUpgrade();
 
-        console.CreateConfig();
+        console.CreateConfig(Players);
 
-        string[] name = UserName();
+        Console.Clear();
+        Title();
         ShowMenu();
 
         string option = Console.ReadLine();
@@ -76,12 +79,14 @@ public class WelcomeScreen
                 case "1":
                     Console.Clear();
                     Game = new GameScreen();
+                    string[] name = UserName();
                     Game.Run(name);
                     Console.Clear();
                     break;
                 case "2":
                     Console.Clear();
                     Game = new GameScreen();
+                    name = UserName();
                     Game.Run(name);
                     Console.Clear();
                     break;

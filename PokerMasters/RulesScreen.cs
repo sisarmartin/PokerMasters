@@ -28,6 +28,7 @@ class RulesScreen
         } while (press != "Q");
         Console.Clear();
         WelcomeScreen welcome = new WelcomeScreen();
+        
         welcome.Display();
     }
 }

@@ -24,7 +24,6 @@ class HiScoreScreen
         {
             ShowMenu();
             // To do
-
             Console.WriteLine();
             Console.WriteLine("Press Q to return...");
             press = Console.ReadLine().ToUpper();

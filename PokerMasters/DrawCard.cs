@@ -104,7 +104,7 @@ public class DrawCard
     }
 
     // Draw a table game with cards.
-    public static void DrawTable(CardsDeck deck, int pot)
+    public static void DrawTable(CardsDeck deck)
     {
         string[] table =
         {
@@ -112,8 +112,7 @@ public class DrawCard
             " /                                            \\  ",
             "|    ---  ---  ---  ---  ---                   |",
             "|   |   ||   ||   ||   ||   |       POT:       |",
-            "|   |   ||   ||   ||   ||   |     "+pot.ToString("000000")+
-            "       |",
+            "|   |   ||   ||   ||   ||   |                  |",
             "|   |   ||   ||   ||   ||   |                  |",
             "|    ---  ---  ---  ---  ---                   |",
             " \\                                            / ",
@@ -127,10 +126,10 @@ public class DrawCard
         }
     }
     
-    public static void DrawSmallBlind()
+    public static void DrawPot(int pot)
     {
-        Console.SetCursorPosition(23, 7);
-        Console.WriteLine("S");
+        Console.SetCursorPosition(80, 16);
+        Console.WriteLine(pot.ToString("000000"));
     }
 
     public static void DrawResult(List<Player> Players)

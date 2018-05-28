@@ -56,6 +56,7 @@ public class GameScreen
                     break;
                 case "3":
                     Players[Index].Call();
+                    pot += Players[Index - 1].Pot;
                     Console.SetCursorPosition(0, 31);
                     Console.WriteLine(new string(' ', 100));
                     Console.SetCursorPosition(0, 32);
@@ -82,7 +83,7 @@ public class GameScreen
                     break;
             }
 
-        for (int i = 0; i < Players.Count - 1; i++)
+            for (int i = 0; i < Players.Count - 1; i++)
             {
                 if ((Index == Players.Count - 1) && (move != "1"))
                 {
@@ -188,12 +189,43 @@ public class GameScreen
             check.Add(deck.Cards[2]);
             check.Add(deck.Cards[3]);
             check.Add(deck.Cards[4]);
+        }
+        // Looking four and three of a kind, two and one pair.
 
-            //Royal Flush #1
-            /*if (check.Contains())
+        int times = 0;
+
+        for (int i = 0; i < 2; i++)
+        {
+            for (int j = 2; j < 7; j++)
             {
+                if (check[i].Rank == check[j].Rank)
+                    times++;
+            }
+        }
 
-            }*/
+        if (times == 4)
+        {
+            Console.WriteLine("Four of a kind");
+        }
+        else if (times == 3)
+        {
+            Console.WriteLine("Three of a kind");
+        }
+        else if (times == 2)
+        {
+            Console.WriteLine("Two pair");
+        }
+        else if (times == 1)
+        {
+            Console.WriteLine("One pair");
+        }
+        else if ((check[0].Rank == check[1].Rank))
+        {
+            Console.WriteLine("One pair");
+        }
+        else
+        {
+            Console.WriteLine("No one");
         }
     }
 
@@ -234,10 +266,15 @@ public class GameScreen
             Players.Add(player);
         }
 
+        // Draw Game table and cards
         Console.Clear();
         DrawCard.Draw(Players, Deck);
         DrawCard.DrawTable(Deck);
-        
+
+        // Create logs of players
+        ConsoleUpgrade.CreateConfig(Players);
+
+        // Loop of game
         GameLoop();
     }
 
@@ -262,16 +299,24 @@ public class GameScreen
                         Console.Beep(600, 1000);
                         //Update Pot
                         DrawCard.DrawPot(pot);
+                        DrawCard.UpdateChips(Players);
                     }
                     else
                     {
                         Index = 0;
+                        //Update Pot
+                        DrawCard.DrawPot(pot);
+                        DrawCard.UpdateChips(Players);
                     }
                     DrawCard.UpdateChips(Players);
-                    // 3 firsts cards of the middle
-                    if (allIsPlay)
+                }
+
+                // 3 firsts cards of the middle
+                if (allIsPlay)
+                {
+                    Flop(Deck);
+                    for (int i = 0; i < Players.Count; i++)
                     {
-                        Flop(Deck);
                         Movements();
 
                         if (Index < Players.Count - 1)
@@ -284,17 +329,22 @@ public class GameScreen
                         else
                         {
                             Index = 0;
+                            //Update Pot
+                            DrawCard.DrawPot(pot);
+                            DrawCard.UpdateChips(Players);
                         }
                     }
-                    else
-                    {
-                        allIsPlay = false;
-                    }
+                }
+                else
+                {
+                    allIsPlay = false;
+                }
 
-                    // 1 card of the middle
-                    if (allIsPlay)
+                if (allIsPlay)
+                {
+                    Turn(Deck);
+                    for (int i = 0; i < Players.Count; i++)
                     {
-                        Turn(Deck);
                         Movements();
 
                         if (Index < Players.Count - 1)
@@ -307,17 +357,23 @@ public class GameScreen
                         else
                         {
                             Index = 0;
+                            //Update Pot
+                            DrawCard.DrawPot(pot);
+                            DrawCard.UpdateChips(Players);
                         }
                     }
-                    else
-                    {
-                        allIsPlay = false;
-                    }
+                }
+                else
+                {
+                    allIsPlay = false;
+                }
 
-                    // The last card of the middle
-                    if (allIsPlay)
+                // The last card of the middle
+                if (allIsPlay)
+                {
+                    River(Deck);
+                    for (int i = 0; i < Players.Count; i++)
                     {
-                        River(Deck);
                         Movements();
 
                         if (Index < Players.Count - 1)
@@ -330,12 +386,15 @@ public class GameScreen
                         else
                         {
                             Index = 0;
+                            //Update Pot
+                            DrawCard.DrawPot(pot);
+                            DrawCard.UpdateChips(Players);
                         }
                     }
-                    else
-                    {
-                        allIsPlay = false;
-                    }
+                }
+                else
+                {
+                    allIsPlay = false;
                 }
             } while (!allIsPlay);
 
@@ -347,6 +406,9 @@ public class GameScreen
             // Update cards after the turn
             DrawCard.Draw(Players, Deck);
             DrawCard.DrawResult(Players);
+            CheckCards(Players, Deck);
+            Players[0].Chips = Players[0].Chips + pot;
+            pot = 0;
             round++;
 
         } while (!exit);

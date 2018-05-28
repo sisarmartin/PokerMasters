@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 public class Player
 {
@@ -38,14 +40,15 @@ public class Player
         return amount;
     }
 
+    public int Call()
+    {
+        Console.WriteLine("You called.");
+        return Pot;
+    }
+
     public void Check()
     {
         Console.WriteLine("You checked.");
-    }
-
-    public void Call()
-    {
-        Console.WriteLine("You called.");
     }
 
     public void Fold()

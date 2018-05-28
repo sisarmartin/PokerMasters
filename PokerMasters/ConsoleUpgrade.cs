@@ -68,6 +68,7 @@ public class ConsoleUpgrade
         Console.WriteLine("Extraction finished");
     }
 
+    //Created this method for when use Hi Scores in HiScoresSreen.cs
     public static void ShowScores()
     {
         StreamReader inFile;
@@ -87,8 +88,8 @@ public class ConsoleUpgrade
                     Extract(line, outFile);
                 }
             } while (line != null);
-            inFile.Close();
             outFile.Close();
+            inFile.Close();
         }
         catch (PathTooLongException)
         {
@@ -115,10 +116,16 @@ public class ConsoleUpgrade
 
     public static void Extract(string line, StreamWriter file)
     {
-        int position = line.IndexOf('@', 0);
+        if (line.Contains("/Logs"))
+        {
+            line = line.Replace("/Logs", "NewHighScore");
+        }
 
-        line = line.Substring(position);
-        file.WriteLine(line);
+        int positionUsername = line.IndexOf('@');
+        string username = line.Substring(0, positionUsername + 1);
+        string chips = line.Substring(positionUsername + 1, 5);
+        line = line.Replace("@", " ");
+        file.WriteLine(username + " " + chips);
         file.WriteLine();
     }
 }

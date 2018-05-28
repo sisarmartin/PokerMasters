@@ -35,10 +35,10 @@ public class WelcomeScreen
 
         do
         {
-            Console.Write("Enter a number of players 1-6: ");
+            Console.Write("Enter a number of players 2-6: ");
             nPlayers = Console.ReadLine();    
-        } while (nPlayers != "1" && nPlayers != "2" && nPlayers != "3"
-         && nPlayers != "4" && nPlayers != "5" && nPlayers != "6");
+        } while (nPlayers != "2" && nPlayers != "3" && nPlayers != "4" &&
+            nPlayers != "5" && nPlayers != "6");
 
         int nPlayer = Convert.ToInt32(nPlayers);
         string[] name = new string[nPlayer];
@@ -61,9 +61,6 @@ public class WelcomeScreen
         CreditsScreen Credits;
         HiScoreScreen HiScore;
         RulesScreen Rules;
-        ConsoleUpgrade console = new ConsoleUpgrade();
-
-        console.CreateConfig(Players);
 
         Console.Clear();
         Title();

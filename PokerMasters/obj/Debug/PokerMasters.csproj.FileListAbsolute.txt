@@ -1,0 +1,13 @@
+c:\users\cesar\documents\visual studio 2015\Projects\PokerMasters\PokerMasters\bin\Debug\PokerMasters.exe.config
+c:\users\cesar\documents\visual studio 2015\Projects\PokerMasters\PokerMasters\bin\Debug\PokerMasters.exe
+c:\users\cesar\documents\visual studio 2015\Projects\PokerMasters\PokerMasters\bin\Debug\PokerMasters.pdb
+c:\users\cesar\documents\visual studio 2015\Projects\PokerMasters\PokerMasters\obj\Debug\PokerMasters.csprojResolveAssemblyReference.cache
+c:\users\cesar\documents\visual studio 2015\Projects\PokerMasters\PokerMasters\obj\Debug\PokerMasters.exe
+c:\users\cesar\documents\visual studio 2015\Projects\PokerMasters\PokerMasters\obj\Debug\PokerMasters.pdb
+C:\Users\jkh9L\Desktop\PokerMasters\PokerMasters\bin\Debug\PokerMasters.exe.config
+C:\Users\jkh9L\Desktop\PokerMasters\PokerMasters\bin\Debug\PokerMasters.exe
+C:\Users\jkh9L\Desktop\PokerMasters\PokerMasters\bin\Debug\PokerMasters.pdb
+C:\Users\jkh9L\Desktop\PokerMasters\PokerMasters\obj\Debug\PokerMasters.csprojResolveAssemblyReference.cache
+C:\Users\jkh9L\Desktop\PokerMasters\PokerMasters\obj\Debug\PokerMasters.csproj.CoreCompileInputs.cache
+C:\Users\jkh9L\Desktop\PokerMasters\PokerMasters\obj\Debug\PokerMasters.exe
+C:\Users\jkh9L\Desktop\PokerMasters\PokerMasters\obj\Debug\PokerMasters.pdb

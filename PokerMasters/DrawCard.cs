@@ -1,14 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-public class DrawCard
+public class DrawCard : ConsoleUpgrade
 {
     private GameScreen Game { get; set; }
-    public struct Positions
-    {
-        public int X;
-        public int Y;
-    }
 
     public static void Draw(List<Player> Players, CardsDeck deck)
     {

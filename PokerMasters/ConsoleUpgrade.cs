@@ -4,22 +4,22 @@ using System.IO;
 
 public class ConsoleUpgrade
 {
+    public struct Positions
+    {
+        public int X;
+        public int Y;
+    }
+
     public List<Player> Players { get; set; }
     public ConsoleUpgrade()
     {
         Players = new List<Player>();
     }
 
-    // You should assign a different position for each player.
-    public void Position()
-    {
-        // To do
-    }
-
     //Write the player's characteristics to the right of the welcome screen.
-    public static void WriteNames(int x, int y, Player player)
+    public static void WriteNames(Player player)
     {
-        Console.SetCursorPosition(x, y);
+        Console.SetCursorPosition(50, 2);
         Console.WriteLine(player.UserName+ ", you have "+ player.Chips
             +" chips");
     }

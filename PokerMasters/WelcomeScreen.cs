@@ -66,11 +66,12 @@ public class WelcomeScreen
         Title();
         ShowMenu();
 
-        string option = Console.ReadLine();
+        string option;
         bool exit = false;
-        
+
         do
         {
+            option = Console.ReadLine();
             switch (option.ToUpper())
             {
                 case "1":
@@ -112,6 +113,7 @@ public class WelcomeScreen
                     break;
                 default:
                     Console.Clear();
+                    Title();
                     ShowMenu();
                     Console.WriteLine();
                     Console.WriteLine("Enter a correct option!");

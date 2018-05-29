@@ -5,6 +5,7 @@ public class CardsDeck
 {
     public List<Card> Cards { get; set; }
     public int Count { get { return Cards.Count; } }
+
     // Generate List to save the cards
     public CardsDeck()
     {

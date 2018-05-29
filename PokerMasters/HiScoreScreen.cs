@@ -5,8 +5,6 @@ using System.Collections.Generic;
 class HiScoreScreen
 {
     public List<Player> Players { get; set; }
-    private string userName;
-    private int chips;
 
     public void ShowMenu()
     {

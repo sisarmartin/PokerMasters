@@ -129,7 +129,10 @@ public class DrawCard : ConsoleUpgrade
 
     public static void DrawResult(List<Player> Players)
     {
-        Console.SetCursorPosition(110, 13);
-        Console.WriteLine(Players[0].UserName+" wins!");
+        if (Players.Count == 2)
+        {
+            Console.SetCursorPosition(110, 13);
+            Console.WriteLine(Players[0].UserName + " wins!");
+        }
     }
 }

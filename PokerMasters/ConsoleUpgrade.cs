@@ -116,16 +116,19 @@ public class ConsoleUpgrade
 
     public static void Extract(string line, StreamWriter file)
     {
-        if (line.Contains("/Logs"))
+        if (line.Contains("/Logs PokerMasters/"))
         {
-            line = line.Replace("/Logs", "NewHighScore");
+            line = line.Replace("/Logs PokerMasters/", "New High Scores");
         }
 
         int positionUsername = line.IndexOf('@');
-        string username = line.Substring(0, positionUsername + 1);
+        string[] usernames = line.Split('@');
         string chips = line.Substring(positionUsername + 1, 5);
         line = line.Replace("@", " ");
-        file.WriteLine(username + " " + chips);
-        file.WriteLine();
+        foreach (string player in usernames)
+        {
+            file.WriteLine(player);
+            file.WriteLine();
+        }
     }
 }

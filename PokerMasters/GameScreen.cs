@@ -4,14 +4,18 @@ using System.Collections.Generic;
 public class GameScreen : ConsoleUpgrade
 {
     WelcomeScreen Welcome = new WelcomeScreen();
-    
+
+    public Player Player { get; set; }
     private Hand Hand { get; set; }
     private CardsDeck Deck { get; set; }
     private int round = 0;
     public int pot;
     public int Index { get; set; }
-    private bool allIsPlay = false;
     public Card[] Cards = new Card[5];
+    public bool isAbsent;
+    public bool allIsPlay;
+    public bool isFold;
+    public bool winner;
 
     public GameScreen()
     {
@@ -110,42 +114,66 @@ public class GameScreen : ConsoleUpgrade
             check.Add(deck.Cards[3]);
             check.Add(deck.Cards[4]);
         }
+
         // Looking four and three of a kind, two and one pair.
-
-        int times = 0;
-
-        for (int i = 0; i < 2; i++)
+        if (Players.Count == 2)
         {
-            for (int j = 2; j < 7; j++)
+            int playerOneTimes = 0;
+
+            for (int i = 0; i < 2; i++)
             {
-                if (check[i].Rank == check[j].Rank)
-                    times++;
+                for (int j = 2; j < 7; j++)
+                {
+                    if (check[i].Rank == check[j].Rank)
+                        playerOneTimes++;
+                }
             }
-        }
 
-        if (times == 4)
-        {
-            Console.WriteLine("Four of a kind");
-        }
-        else if (times == 3)
-        {
-            Console.WriteLine("Three of a kind");
-        }
-        else if (times == 2)
-        {
-            Console.WriteLine("Two pair");
-        }
-        else if (times == 1)
-        {
-            Console.WriteLine("One pair");
-        }
-        else if ((check[0].Rank == check[1].Rank))
-        {
-            Console.WriteLine("One pair");
-        }
-        else
-        {
-            Console.WriteLine("No one");
+            int playerTwoTimes = 0;
+
+            for (int i = 7; i < 9; i++)
+            {
+                for (int j = 9; j < 14; j++)
+                {
+                    if (check[i].Rank == check[j].Rank)
+                        playerTwoTimes++;
+                }
+            }
+
+            if (playerOneTimes > playerTwoTimes)
+            {
+                if (playerOneTimes == 4)
+                    Console.WriteLine("Four of a kind");
+                else if (playerOneTimes == 3)
+                    Console.WriteLine("Three of a kind");
+                else if (playerOneTimes == 2)
+                    Console.WriteLine("Two pair");
+                else if (playerOneTimes == 1)
+                    Console.WriteLine("One pair");
+                else if ((check[0].Rank == check[1].Rank))
+                    Console.WriteLine("One pair");
+                else
+                    Console.WriteLine("No one");
+            }
+
+            if (playerOneTimes < playerTwoTimes)
+            {
+                if (playerTwoTimes == 4)
+                    Console.WriteLine("Four of a kind");
+                else if (playerTwoTimes == 3)
+                    Console.WriteLine("Three of a kind");
+                else if (playerTwoTimes == 2)
+                    Console.WriteLine("Two pair");
+                else if (playerTwoTimes == 1)
+                    Console.WriteLine("One pair");
+                else if ((check[7].Rank == check[8].Rank))
+                    Console.WriteLine("One pair");
+                else
+                    Console.WriteLine("No one");
+            }
+
+            if (playerOneTimes == playerTwoTimes)
+                Console.WriteLine("Deuce");
         }
     }
 
@@ -154,6 +182,7 @@ public class GameScreen : ConsoleUpgrade
     {
         Console.SetCursorPosition(0,30);
         Console.WriteLine("1.FOLD / 2.CHECK / 3.CALL / 4.RAISE");
+        Console.WriteLine("Press Z for Absent mode");
         Console.Write(Players[Index].UserName+", enter a option: ");
 
         string move;
@@ -166,32 +195,20 @@ public class GameScreen : ConsoleUpgrade
             {
                 case "1":
                     Players[Index].Fold();
-                    Console.SetCursorPosition(0, 31);
-                    Console.WriteLine(new string(' ', 100));
-                    Console.SetCursorPosition(0, 32);
-                    Console.WriteLine(new string(' ', 100));
+                    isFold = true;
                     break;
                 case "2":
                     Players[Index].Check();
-                    Console.SetCursorPosition(0, 31);
-                    Console.WriteLine(new string(' ', 100));
-                    Console.SetCursorPosition(0, 32);
-                    Console.WriteLine(new string(' ', 100));
                     break;
                 case "3":
                     Players[Index].Call();
                     pot += Players[Index - 1].Pot;
-                    Console.SetCursorPosition(0, 31);
-                    Console.WriteLine(new string(' ', 100));
-                    Console.SetCursorPosition(0, 32);
-                    Console.WriteLine(new string(' ', 100));
                     break;
                 case "4":
                     pot += Players[Index].Raise();
-                    Console.SetCursorPosition(0, 31);
-                    Console.WriteLine(new string(' ', 100));
-                    Console.SetCursorPosition(0, 32);
-                    Console.WriteLine(new string(' ', 100));
+                    break;
+                case "Z":
+                    isAbsent = Players[Index].Absent();
                     break;
                 case "Q":
                     exit = true;
@@ -202,6 +219,8 @@ public class GameScreen : ConsoleUpgrade
                     Console.SetCursorPosition(0, 31);
                     Console.WriteLine(new string(' ', 100));
                     Console.SetCursorPosition(0, 32);
+                    Console.WriteLine(new string(' ', 100));
+                    Console.SetCursorPosition(0, 33);
                     Console.WriteLine(new string(' ', 100));
                     Movements();
                     break;
@@ -275,6 +294,7 @@ public class GameScreen : ConsoleUpgrade
     public void GameLoop()
     {
         bool exit = false;
+        int nIsAbsent;
         do
         {
             do
@@ -285,24 +305,36 @@ public class GameScreen : ConsoleUpgrade
                     //1 Check user input
                     Movements();
 
-                    //2 Movements
-                    if (Index < Players.Count - 1)
+                    if (!isAbsent)
                     {
-                        Index++;
-                        // Sound to inform about the turn of another player
-                        Console.Beep(600, 1000);
-                        //Update Pot
-                        DrawCard.DrawPot(pot);
-                        DrawCard.UpdateChips(Players);
+                        //2 Movements
+                        if (Index < Players.Count - 1)
+                        {
+                            Index++;
+                            // Sound to inform about the turn of another player
+                            Console.Beep(600, 1000);
+                            //Update Pot
+                            DrawCard.DrawPot(pot);
+                            DrawCard.UpdateChips(Players);
+                        }
+                        else
+                        {
+                            Index = 0;
+                            Console.Beep(600, 1000);
+                            //Update Pot
+                            DrawCard.DrawPot(pot);
+                            DrawCard.UpdateChips(Players);
+                        }
                     }
                     else
                     {
-                        Index = 0;
-                        Console.Beep(600, 1000);
-                        //Update Pot
-                        DrawCard.DrawPot(pot);
-                        DrawCard.UpdateChips(Players);
+                        nIsAbsent = Index;
+                        if (Index < Players.Count - 1)
+                            Index++;
+                        else
+                            Index = 0;
                     }
+
                     DrawCard.UpdateChips(Players);
                 }
 
@@ -316,20 +348,34 @@ public class GameScreen : ConsoleUpgrade
                         {
                             Movements();
 
-                            if (Index < Players.Count - 1)
+                            if (!isAbsent)
                             {
-                                Index++;
-                                Console.Beep(600, 1000);
-                                DrawCard.DrawPot(pot);
-                                DrawCard.UpdateChips(Players);
+                                //2 Movements
+                                if (Index < Players.Count - 1)
+                                {
+                                    Index++;
+                                    // Sound to inform about the turn of another player
+                                    Console.Beep(600, 1000);
+                                    //Update Pot
+                                    DrawCard.DrawPot(pot);
+                                    DrawCard.UpdateChips(Players);
+                                }
+                                else
+                                {
+                                    Index = 0;
+                                    Console.Beep(600, 1000);
+                                    //Update Pot
+                                    DrawCard.DrawPot(pot);
+                                    DrawCard.UpdateChips(Players);
+                                }
                             }
                             else
                             {
-                                Index = 0;
-                                Console.Beep(600, 1000);
-                                //Update Pot
-                                DrawCard.DrawPot(pot);
-                                DrawCard.UpdateChips(Players);
+                                nIsAbsent = Index;
+                                if (Index < Players.Count - 1)
+                                    Index++;
+                                else
+                                    Index = 0;
                             }
                         }
                     }
@@ -397,7 +443,12 @@ public class GameScreen : ConsoleUpgrade
                     {
                         allIsPlay = false;
                     }
-            } while (!allIsPlay);
+                if (Players.Count != 2)
+                {
+                    isFold = false;
+                }
+
+            } while ((!isFold) && (!allIsPlay));
 
             for (int timesToShuffle = 0; timesToShuffle < 10; timesToShuffle++)
             {
@@ -412,6 +463,7 @@ public class GameScreen : ConsoleUpgrade
             pot = 0;
             Index = 0;
             DrawCard.DrawTable(Deck);
+            Deck.Reset();
             round++;
 
         } while (!exit);

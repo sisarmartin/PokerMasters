@@ -12,8 +12,6 @@ public class Player
     public int Y { get; set; }
     public int Pot { get; set; }
     // Atributes to asign
-    private bool isInPlay;
-    private bool isAbsent;
     private bool bigBlind;
     private bool smallBlind;
     private bool dealer;
@@ -37,22 +35,58 @@ public class Player
         int amount = Convert.ToInt32(Console.ReadLine());
         Chips = Chips - amount;
         Pot = amount;
+        Console.SetCursorPosition(0, 31);
+        Console.WriteLine(new string(' ', 100));
+        Console.SetCursorPosition(0, 32);
+        Console.WriteLine(new string(' ', 100));
+        Console.SetCursorPosition(0, 33);
+        Console.WriteLine(new string(' ', 100));
         return amount;
     }
 
     public int Call()
     {
         Console.WriteLine("You called.");
+        Console.SetCursorPosition(0, 31);
+        Console.WriteLine(new string(' ', 100));
+        Console.SetCursorPosition(0, 32);
+        Console.WriteLine(new string(' ', 100));
+        Console.SetCursorPosition(0, 33);
+        Console.WriteLine(new string(' ', 100));
         return Pot;
     }
 
     public void Check()
     {
         Console.WriteLine("You checked.");
+        Console.SetCursorPosition(0, 31);
+        Console.WriteLine(new string(' ', 100));
+        Console.SetCursorPosition(0, 32);
+        Console.WriteLine(new string(' ', 100));
+        Console.SetCursorPosition(0, 33);
+        Console.WriteLine(new string(' ', 100));
     }
 
     public void Fold()
     {
-        Console.WriteLine("You folded");
+        Console.WriteLine("You folded.");
+        Console.SetCursorPosition(0, 31);
+        Console.WriteLine(new string(' ', 100));
+        Console.SetCursorPosition(0, 32);
+        Console.WriteLine(new string(' ', 100));
+        Console.SetCursorPosition(0, 33);
+        Console.WriteLine(new string(' ', 100));
+    }
+
+    public bool Absent()
+    {
+        Console.WriteLine("You are absent.");
+        Console.SetCursorPosition(0, 31);
+        Console.WriteLine(new string(' ', 100));
+        Console.SetCursorPosition(0, 32);
+        Console.WriteLine(new string(' ', 100));
+        Console.SetCursorPosition(0, 33);
+        Console.WriteLine(new string(' ', 100));
+        return true;
     }
 }

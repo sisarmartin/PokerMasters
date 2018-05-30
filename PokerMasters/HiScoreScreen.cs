@@ -26,19 +26,43 @@ class HiScoreScreen
 
             ConsoleUpgrade.ShowScores();
 
-            StreamReader input =
-                new StreamReader(@"..\..\..\configs\hiScores.txt");
-            string line;
-
-            do
+            try
             {
-                line = input.ReadLine();
-                if (line != null)
+                StreamReader input =
+                new StreamReader(@"..\..\..\configs\hiScores.txt");
+                string line;
+
+                do
                 {
-                    Console.WriteLine(line);
-                }
-            } while (line != null);
-            input.Close();
+                    line = input.ReadLine();
+                    if (line != null)
+                    {
+                        Console.WriteLine(line);
+                    }
+                } while (line != null);
+                input.Close();
+            }
+            catch (PathTooLongException)
+            {
+                Console.WriteLine("Entered path was too long.");
+                return;
+            }
+            catch (FileNotFoundException)
+            {
+                Console.WriteLine("File not found.");
+                return;
+            }
+            catch (IOException exp)
+            {
+                Console.WriteLine("Input/output error: {0}", exp.Message);
+                return;
+            }
+            catch (Exception exp)
+            {
+                Console.WriteLine("Unexpected error: {0}", exp.Message);
+                return;
+            }
+            Console.WriteLine("Extraction finished");
 
             Console.WriteLine();
             Console.WriteLine("Press Q to return...");

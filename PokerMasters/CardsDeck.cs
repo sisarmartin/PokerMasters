@@ -72,7 +72,7 @@ public class CardsDeck
 
     public void Reset()
     {
-        // To do
+        Create();
     }
 
     public void TopCard()

@@ -55,25 +55,53 @@ public class DrawCard : ConsoleUpgrade
             Console.WriteLine("Chips: " + Players[i].Chips);
         }
         // Big Blind
+
         Random rand = new Random();
-        int bigBlind = rand.Next(0, Players.Count - 1);
+        int bigBlind;/* = rand.Next(0, Players.Count - 1);
         Console.SetCursorPosition(positions[bigBlind].X + 14,
             positions[bigBlind].Y + 2);
         Console.WriteLine("B");
 
-        // Small Blind
+        Players[bigBlind].bigBlind = true;*/
+
         if (Players.Count == 2)
+        {
+            bigBlind = rand.Next(0, Players.Count - 1);
+            Console.SetCursorPosition(positions[bigBlind].X + 14,
+                positions[bigBlind].Y + 2);
+            Console.WriteLine("B");
+            Players[bigBlind].bigBlind = true;
+        }
+        else if (Players.Count == 3)
         {
             bigBlind = rand.Next(0, Players.Count - 1);
             Console.SetCursorPosition(positions[bigBlind + 1].X + 14,
                 positions[bigBlind + 1].Y + 2);
             Console.WriteLine("B");
+            Players[bigBlind + 1].bigBlind = true;
         }
+        else if(Players.Count == 4)
+        {
+            bigBlind = rand.Next(0, Players.Count - 1);
+            Console.SetCursorPosition(positions[bigBlind].X + 14,
+                positions[bigBlind].Y + 2);
+            Console.WriteLine("B");
+            Players[bigBlind].bigBlind = true;
+        }
+        else if (Players.Count == 5)
+        {
+            bigBlind = rand.Next(0, Players.Count - 1);
+            Console.SetCursorPosition(positions[bigBlind + 2].X + 14,
+                positions[bigBlind + 2].Y + 2);
+            Console.WriteLine("B");
+            Players[bigBlind + 2].bigBlind = true;
+        }
+        // Small blind
         bigBlind = rand.Next(0, Players.Count - 1);
-        Console.SetCursorPosition(positions[bigBlind].X + 14,
+        Console.SetCursorPosition(positions[bigBlind + 1].X + 14,
             positions[bigBlind].Y + 2);
         Console.WriteLine("S");
-
+        Players[bigBlind + 1].smallBlind = true;
     }
 
     public static void UpdateChips(List<Player> Players)

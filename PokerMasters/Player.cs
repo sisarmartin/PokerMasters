@@ -12,9 +12,9 @@ public class Player
     public int Y { get; set; }
     public int Pot { get; set; }
     // Atributes to asign
-    private bool bigBlind;
-    private bool smallBlind;
-    private bool dealer;
+    public bool bigBlind;
+    public bool smallBlind;
+    public bool dealer;
     
     public Player()
     {

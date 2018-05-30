@@ -143,33 +143,69 @@ public class GameScreen : ConsoleUpgrade
             if (playerOneTimes > playerTwoTimes)
             {
                 if (playerOneTimes == 4)
-                    Console.WriteLine("Four of a kind");
+                {
+                    Console.SetCursorPosition(110, 13);
+                    Console.WriteLine(Players[0].UserName + "Four of a kind");
+                }
                 else if (playerOneTimes == 3)
-                    Console.WriteLine("Three of a kind");
+                {
+                    Console.SetCursorPosition(110, 13);
+                    Console.WriteLine(Players[0].UserName + "Three of a kind");
+                }
                 else if (playerOneTimes == 2)
-                    Console.WriteLine("Two pair");
+                {
+                    Console.SetCursorPosition(110, 13);
+                    Console.WriteLine(Players[0].UserName + "Two pair");
+                }
                 else if (playerOneTimes == 1)
-                    Console.WriteLine("One pair");
+                {
+                    Console.SetCursorPosition(110, 13);
+                    Console.WriteLine(Players[0].UserName + "One pair");
+                }
                 else if ((check[0].Rank == check[1].Rank))
-                    Console.WriteLine("One pair");
+                {
+                    Console.SetCursorPosition(110, 13);
+                    Console.WriteLine(Players[0].UserName + "One pair");
+                }
                 else
-                    Console.WriteLine("No one");
+                {
+                    Console.SetCursorPosition(110, 13);
+                    Console.WriteLine(Players[0].UserName + "No one");
+                }
             }
 
             if (playerOneTimes < playerTwoTimes)
             {
-                if (playerTwoTimes == 4)
-                    Console.WriteLine("Four of a kind");
-                else if (playerTwoTimes == 3)
-                    Console.WriteLine("Three of a kind");
-                else if (playerTwoTimes == 2)
-                    Console.WriteLine("Two pair");
-                else if (playerTwoTimes == 1)
-                    Console.WriteLine("One pair");
-                else if ((check[7].Rank == check[8].Rank))
-                    Console.WriteLine("One pair");
+                if (playerOneTimes == 4)
+                {
+                    Console.SetCursorPosition(110, 13);
+                    Console.WriteLine(Players[1].UserName + "Four of a kind");
+                }
+                else if (playerOneTimes == 3)
+                {
+                    Console.SetCursorPosition(110, 13);
+                    Console.WriteLine(Players[1].UserName + "Three of a kind");
+                }
+                else if (playerOneTimes == 2)
+                {
+                    Console.SetCursorPosition(110, 13);
+                    Console.WriteLine(Players[1].UserName + "Two pair");
+                }
+                else if (playerOneTimes == 1)
+                {
+                    Console.SetCursorPosition(110, 13);
+                    Console.WriteLine(Players[1].UserName + "One pair");
+                }
+                else if ((check[0].Rank == check[1].Rank))
+                {
+                    Console.SetCursorPosition(110, 13);
+                    Console.WriteLine(Players[1].UserName + "One pair");
+                }
                 else
-                    Console.WriteLine("No one");
+                {
+                    Console.SetCursorPosition(110, 13);
+                    Console.WriteLine(Players[1].UserName + "No one");
+                }
             }
 
             if (playerOneTimes == playerTwoTimes)
@@ -304,6 +340,23 @@ public class GameScreen : ConsoleUpgrade
                 {
                     //1 Check user input
                     Movements();
+
+                    // Payment of blinds
+                    if (Players[i].bigBlind)
+                    {
+                        int big = 200;
+                        Players[i].Chips = Players[i].Chips - big;
+                        pot = big;
+                        pot += big;
+                    }
+
+                    if (Players[i].smallBlind)
+                    {
+                        int small = 100;
+                        Players[i].Chips = Players[i].Chips - small;
+                        pot = small;
+                        pot += small;
+                    }
 
                     if (!isAbsent)
                     {
@@ -457,7 +510,7 @@ public class GameScreen : ConsoleUpgrade
 
             // Update cards after the turn
             DrawCard.Draw(Players, Deck);
-            DrawCard.DrawResult(Players);
+            //DrawCard.DrawResult(Players);
             CheckCards(Players, Deck);
             Players[0].Chips = Players[0].Chips + pot;
             pot = 0;

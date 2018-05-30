@@ -83,10 +83,9 @@ public class WelcomeScreen
                     break;
                 case "2":
                     Console.Clear();
-                    Game = new GameScreen();
-                    name = UserName();
-                    Game.Run(name);
+                    Console.WriteLine("Not available yet...");
                     Console.Clear();
+                    Display();
                     break;
                 case "3":
                     Console.Clear();

@@ -14,6 +14,7 @@ public class Player
     // Atributes to asign
     public bool bigBlind;
     public bool smallBlind;
+    public byte HandValue;
     public bool dealer;
     
     public Player()
@@ -32,6 +33,21 @@ public class Player
     public int Raise()
     {
         Console.Write("Chips to raise: ");
+        int amount = Convert.ToInt32(Console.ReadLine());
+        Chips = Chips - amount;
+        Pot = amount;
+        Console.SetCursorPosition(0, 31);
+        Console.WriteLine(new string(' ', 100));
+        Console.SetCursorPosition(0, 32);
+        Console.WriteLine(new string(' ', 100));
+        Console.SetCursorPosition(0, 33);
+        Console.WriteLine(new string(' ', 100));
+        return amount;
+    }
+
+    public int RaiseEsp()
+    {
+        Console.Write("Fichas a subir: ");
         int amount = Convert.ToInt32(Console.ReadLine());
         Chips = Chips - amount;
         Pot = amount;

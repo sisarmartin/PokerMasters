@@ -53,24 +53,29 @@ class HiScoreScreen
             }
             catch (PathTooLongException)
             {
+                Console.SetCursorPosition(119, 33);
                 Console.WriteLine("Entered path was too long.");
                 return;
             }
             catch (FileNotFoundException)
             {
+                Console.SetCursorPosition(119, 33);
                 Console.WriteLine("File not found.");
                 return;
             }
             catch (IOException exp)
             {
+                Console.SetCursorPosition(119, 33);
                 Console.WriteLine("Input/output error: {0}", exp.Message);
                 return;
             }
             catch (Exception exp)
             {
+                Console.SetCursorPosition(119, 33);
                 Console.WriteLine("Unexpected error: {0}", exp.Message);
                 return;
             }
+            Console.SetCursorPosition(119, 33);
             Console.WriteLine("Extraction finished");
 
             Console.WriteLine();
@@ -91,7 +96,7 @@ class HiScoreScreen
             ShowMenuEsp();
             // To do
 
-            ConsoleUpgrade.ShowScores();
+            ConsoleUpgrade.ShowScoresEsp();
 
             try
             {
@@ -111,25 +116,30 @@ class HiScoreScreen
             }
             catch (PathTooLongException)
             {
-                Console.WriteLine("Entered path was too long.");
+                Console.SetCursorPosition(119, 33);
+                Console.WriteLine("La ruta introducida era demasiado larga.");
                 return;
             }
             catch (FileNotFoundException)
             {
-                Console.WriteLine("File not found.");
+                Console.SetCursorPosition(119, 33);
+                Console.WriteLine("Fichero no encontrado.");
                 return;
             }
             catch (IOException exp)
             {
-                Console.WriteLine("Input/output error: {0}", exp.Message);
+                Console.SetCursorPosition(119, 33);
+                Console.WriteLine("Error salida/entrada: {0}", exp.Message);
                 return;
             }
             catch (Exception exp)
             {
-                Console.WriteLine("Unexpected error: {0}", exp.Message);
+                Console.SetCursorPosition(119, 33);
+                Console.WriteLine("Error inesperado: {0}", exp.Message);
                 return;
             }
-            Console.WriteLine("Extraction finished");
+            Console.SetCursorPosition(119, 33);
+            Console.WriteLine("Extraído correctamente");
 
             Console.WriteLine();
             Console.WriteLine("Pulsa Q para volver...");

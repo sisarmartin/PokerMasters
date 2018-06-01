@@ -30,79 +30,91 @@ public class Player
         Chips = 20000;
     }
 
-    public int Raise()
+    public void ClearText()
     {
-        Console.Write("Chips to raise: ");
-        int amount = Convert.ToInt32(Console.ReadLine());
-        Chips = Chips - amount;
-        Pot = amount;
         Console.SetCursorPosition(0, 31);
         Console.WriteLine(new string(' ', 100));
         Console.SetCursorPosition(0, 32);
         Console.WriteLine(new string(' ', 100));
         Console.SetCursorPosition(0, 33);
         Console.WriteLine(new string(' ', 100));
+    }
+
+    public int Raise()
+    {
+        int amount;
+        string nAmount;
+        bool correct = false;
+        do
+        {
+            Console.Write("Chips to raise: ");
+            nAmount = Console.ReadLine();
+            // Introduced the tryparse so that it does not crash when
+            //it is converted from string to int
+            correct = int.TryParse(nAmount, out amount);
+            if (correct)
+            {
+                amount = Convert.ToInt32(nAmount);
+                Chips = Chips - amount;
+                Pot = amount;
+            }
+            else
+            {
+                correct = false;
+            }
+        } while ((!(amount <= Chips)) || (!correct));
+        ClearText();
         return amount;
     }
 
     public int RaiseEsp()
     {
-        Console.Write("Fichas a subir: ");
-        int amount = Convert.ToInt32(Console.ReadLine());
-        Chips = Chips - amount;
-        Pot = amount;
-        Console.SetCursorPosition(0, 31);
-        Console.WriteLine(new string(' ', 100));
-        Console.SetCursorPosition(0, 32);
-        Console.WriteLine(new string(' ', 100));
-        Console.SetCursorPosition(0, 33);
-        Console.WriteLine(new string(' ', 100));
+        int amount;
+        string nAmount;
+        bool correct = false;
+        do
+        {
+            Console.Write("Chips to raise: ");
+            nAmount = Console.ReadLine();
+            correct = int.TryParse(nAmount, out amount);
+            if (correct)
+            {
+                amount = Convert.ToInt32(nAmount);
+                Chips = Chips - amount;
+                Pot = amount;
+            }
+            else
+            {
+                correct = false;
+            }
+        } while ((!(amount <= Chips)) || (!correct));
+        ClearText();
         return amount;
     }
 
     public int Call()
     {
         Console.WriteLine("You called.");
-        Console.SetCursorPosition(0, 31);
-        Console.WriteLine(new string(' ', 100));
-        Console.SetCursorPosition(0, 32);
-        Console.WriteLine(new string(' ', 100));
-        Console.SetCursorPosition(0, 33);
-        Console.WriteLine(new string(' ', 100));
+        ClearText();
         return Pot;
     }
 
     public void Check()
     {
         Console.WriteLine("You checked.");
-        Console.SetCursorPosition(0, 31);
-        Console.WriteLine(new string(' ', 100));
-        Console.SetCursorPosition(0, 32);
-        Console.WriteLine(new string(' ', 100));
-        Console.SetCursorPosition(0, 33);
-        Console.WriteLine(new string(' ', 100));
+        ClearText();
     }
 
     public void Fold()
     {
         Console.WriteLine("You folded.");
-        Console.SetCursorPosition(0, 31);
-        Console.WriteLine(new string(' ', 100));
-        Console.SetCursorPosition(0, 32);
-        Console.WriteLine(new string(' ', 100));
-        Console.SetCursorPosition(0, 33);
-        Console.WriteLine(new string(' ', 100));
+        ClearText();
     }
 
     public bool Absent()
     {
         Console.WriteLine("You are absent.");
-        Console.SetCursorPosition(0, 31);
-        Console.WriteLine(new string(' ', 100));
-        Console.SetCursorPosition(0, 32);
-        Console.WriteLine(new string(' ', 100));
-        Console.SetCursorPosition(0, 33);
-        Console.WriteLine(new string(' ', 100));
+        ClearText();
         return true;
     }
 }

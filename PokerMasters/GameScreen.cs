@@ -14,7 +14,6 @@ public class GameScreen : ConsoleUpgrade
     public Card[] Cards = new Card[5];
     public bool isAbsent;
     public bool allIsPlay;
-    public bool winner;
 
     public GameScreen()
     {
@@ -359,115 +358,105 @@ public class GameScreen : ConsoleUpgrade
         Console.Write(Players[Index].UserName + ", introduce una opcion: ");
     }
 
+    public void ClearText()
+    {
+        Console.SetCursorPosition(0, 31);
+        Console.WriteLine(new string(' ', 100));
+        Console.SetCursorPosition(0, 32);
+        Console.WriteLine(new string(' ', 100));
+        Console.SetCursorPosition(0, 33);
+        Console.WriteLine(new string(' ', 100));
+    }
+
     // Created the structure to choose the movements
     public void Movements()
     {
         string move;
-        bool exit = false;
+        
+        ShowMovements();
 
-        do
+        move = Console.ReadLine();
+        switch (move.ToUpper())
         {
-            ShowMovements();
-
-            move = Console.ReadLine();
-            switch (move.ToUpper())
+            case "1":
+                Players[Index].Fold();
+                break;
+            case "2":
+                Players[Index].Check();
+                break;
+            case "3":
+                Players[Index].Call();
+                Players[Index].Chips -= Players[Index - 1].Pot;
+                pot += Players[Index - 1].Pot;
+                break;
+            case "4":
+                pot += Players[Index].Raise();
+                break;
+            case "Z":
+                isAbsent = Players[Index].Absent();
+                break;
+            case "Q":
+                Console.Clear();
+                Welcome.Display();
+                break;
+            default:
+                ClearText();
+                Movements();
+                break;
+        }
+        
+        for (int i = 0; i < Players.Count - 1; i++)
+        {
+            if (move != "1")
             {
-                case "1":
-                    Players[Index].Fold();
-                    break;
-                case "2":
-                    Players[Index].Check();
-                    break;
-                case "3":
-                    Players[Index].Call();
-                    Players[Index].Chips -= Players[Index - 1].Pot;
-                    pot += Players[Index - 1].Pot;
-                    break;
-                case "4":
-                    pot += Players[Index].Raise();
-                    break;
-                case "Z":
-                    isAbsent = Players[Index].Absent();
-                    break;
-                case "Q":
-                    Console.Clear();
-                    Welcome.Display();
-                    exit = true;
-                    break;
-                default:
-                    Console.SetCursorPosition(0, 31);
-                    Console.WriteLine(new string(' ', 100));
-                    Console.SetCursorPosition(0, 32);
-                    Console.WriteLine(new string(' ', 100));
-                    Console.SetCursorPosition(0, 33);
-                    Console.WriteLine(new string(' ', 100));
-                    Movements();
-                    break;
+                allIsPlay = true;
             }
-            
-            for (int i = 0; i < Players.Count - 1; i++)
-            {
-                if (move != "1")
-                {
-                    allIsPlay = true;
-                }
-            }
-        } while (exit);
+        }
     }
 
     public void MovementsEsp()
     {
         string move;
-        bool exit = false;
+        
+        ShowMovementsEsp();
 
-        do
+        move = Console.ReadLine();
+        switch (move.ToUpper())
         {
-            ShowMovementsEsp();
+            case "1":
+                Players[Index].Fold();
+                break;
+            case "2":
+                Players[Index].Check();
+                break;
+            case "3":
+                Players[Index].Call();
+                Players[Index].Chips -= Players[Index - 1].Pot;
+                pot += Players[Index - 1].Pot;
+                break;
+            case "4":
+                pot += Players[Index].RaiseEsp();
+                break;
+            case "Z":
+                isAbsent = Players[Index].Absent();
+                break;
+            case "Q":
+                Console.Clear();
+                Welcome.DisplayEsp();
+                break;
+            default:
+                ClearText();
+                MovementsEsp();
+                break;
+        }
 
-            move = Console.ReadLine();
-            switch (move.ToUpper())
+        for (int i = 0; i < Players.Count - 1; i++)
+        {
+            if (move != "1")
             {
-                case "1":
-                    Players[Index].Fold();
-                    break;
-                case "2":
-                    Players[Index].Check();
-                    break;
-                case "3":
-                    Players[Index].Call();
-                    Players[Index].Chips -= Players[Index - 1].Pot;
-                    pot += Players[Index - 1].Pot;
-                    break;
-                case "4":
-                    pot += Players[Index].RaiseEsp();
-                    break;
-                case "Z":
-                    isAbsent = Players[Index].Absent();
-                    break;
-                case "Q":
-                    exit = true;
-                    Console.Clear();
-                    Welcome.DisplayEsp();
-                    break;
-                default:
-                    Console.SetCursorPosition(0, 31);
-                    Console.WriteLine(new string(' ', 100));
-                    Console.SetCursorPosition(0, 32);
-                    Console.WriteLine(new string(' ', 100));
-                    Console.SetCursorPosition(0, 33);
-                    Console.WriteLine(new string(' ', 100));
-                    MovementsEsp();
-                    break;
+                allIsPlay = true;
             }
-
-            for (int i = 0; i < Players.Count - 1; i++)
-            {
-                if (move != "1")
-                {
-                    allIsPlay = true;
-                }
-            }
-        } while (exit);
+        }
     }
 
     public void ShowExit()
@@ -531,7 +520,7 @@ public class GameScreen : ConsoleUpgrade
 
         // Draw Game table and cards
         DrawCard.Draw(Players, Deck);
-            DrawCard.UpdateChips(Players);
+        DrawCard.UpdateChips(Players);
         DrawCard.DrawTable(Deck);
 
         // Create logs of players
@@ -640,68 +629,27 @@ public class GameScreen : ConsoleUpgrade
                         else
                             Index = 0;
                     }
-
                     DrawCard.UpdateChips(Players);
                 }
 
                 // 3 firsts cards of the middle
-                
-                    if (allIsPlay)
+                if (allIsPlay)
+                {
+                    Flop(Deck);
+                    allIsPlay = false;
+                    for (int i = 0; i < Players.Count; i++)
                     {
-                        Flop(Deck);
-                        allIsPlay = false;
-                        for (int i = 0; i < Players.Count; i++)
+                        Movements();
+
+                        if (!isAbsent)
                         {
-                            Movements();
-
-                            if (!isAbsent)
-                            {
-                                //2 Movements
-                                if (Index < Players.Count - 1)
-                                {
-                                    Index++;
-                                    // Sound to inform about the turn of another player
-                                    Console.Beep(600, 1000);
-                                    //Update Pot
-                                    DrawCard.DrawPot(pot);
-                                    DrawCard.UpdateChips(Players);
-                                }
-                                else
-                                {
-                                    Index = 0;
-                                    Console.Beep(600, 1000);
-                                    //Update Pot
-                                    DrawCard.DrawPot(pot);
-                                    DrawCard.UpdateChips(Players);
-                                }
-                            }
-                            else
-                            {
-                                nIsAbsent = Index;
-                                if (Index < Players.Count - 1)
-                                    Index++;
-                                else
-                                    Index = 0;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        allIsPlay = false;
-                    }
-
-            
-                    if (allIsPlay)
-                    {
-                        Turn(Deck);
-                        for (int i = 0; i < Players.Count; i++)
-                        {
-                            Movements();
-
+                            //2 Movements
                             if (Index < Players.Count - 1)
                             {
                                 Index++;
+                                // Sound to inform about the turn of another player
                                 Console.Beep(600, 1000);
+                                //Update Pot
                                 DrawCard.DrawPot(pot);
                                 DrawCard.UpdateChips(Players);
                             }
@@ -714,41 +662,79 @@ public class GameScreen : ConsoleUpgrade
                                 DrawCard.UpdateChips(Players);
                             }
                         }
+                        else
+                        {
+                            nIsAbsent = Index;
+                            if (Index < Players.Count - 1)
+                                Index++;
+                            else
+                                Index = 0;
+                        }
                     }
-                    else
+                }
+                else
+                {
+                    allIsPlay = false;
+                }
+                
+                if (allIsPlay)
+                {
+                    Turn(Deck);
+                    for (int i = 0; i < Players.Count; i++)
                     {
-                        allIsPlay = false;
+                        Movements();
+
+                        if (Index < Players.Count - 1)
+                        {
+                            Index++;
+                            Console.Beep(600, 1000);
+                            DrawCard.DrawPot(pot);
+                            DrawCard.UpdateChips(Players);
+                        }
+                        else
+                        {
+                            Index = 0;
+                            Console.Beep(600, 1000);
+                            //Update Pot
+                            DrawCard.DrawPot(pot);
+                            DrawCard.UpdateChips(Players);
+                        }
                     }
+                }
+                else
+                {
+                    allIsPlay = false;
+                }
 
                 // The last card of the middle
-                    if (allIsPlay)
+                if (allIsPlay)
+                {
+                    River(Deck);
+                    for (int i = 0; i < Players.Count; i++)
                     {
-                        River(Deck);
-                        for (int i = 0; i < Players.Count; i++)
-                        {
-                            Movements();
+                        Movements();
 
-                            if (Index < Players.Count - 1)
-                            {
-                                Index++;
-                                Console.Beep(600, 1000);
-                                DrawCard.DrawPot(pot);
-                                DrawCard.UpdateChips(Players);
-                            }
-                            else
-                            {
-                                Index = 0;
-                                Console.Beep(600, 1000);
-                                //Update Pot
-                                DrawCard.DrawPot(pot);
-                                DrawCard.UpdateChips(Players);
-                            }
+                        if (Index < Players.Count - 1)
+                        {
+                            Index++;
+                            Console.Beep(600, 1000);
+                            DrawCard.DrawPot(pot);
+                            DrawCard.UpdateChips(Players);
+                        }
+                        else
+                        {
+                            Index = 0;
+                            Console.Beep(600, 1000);
+                            //Update Pot
+                            DrawCard.DrawPot(pot);
+                            DrawCard.UpdateChips(Players);
                         }
                     }
-                    else
-                    {
-                        allIsPlay = false;
-                    }
+                }
+                else
+                {
+                    allIsPlay = false;
+                }
 
             } while (!allIsPlay);
 
@@ -767,7 +753,6 @@ public class GameScreen : ConsoleUpgrade
             Index = 0;
             Deck.Reset();
             round++;
-
         } while (!exit);
     }
 
@@ -829,12 +814,10 @@ public class GameScreen : ConsoleUpgrade
                         else
                             Index = 0;
                     }
-
                     DrawCard.UpdateChipsEsp(Players);
                 }
 
                 // 3 firsts cards of the middle
-
                 if (allIsPlay)
                 {
                     Flop(Deck);
@@ -938,7 +921,6 @@ public class GameScreen : ConsoleUpgrade
                 {
                     allIsPlay = false;
                 }
-
             } while (!allIsPlay);
 
             for (int timesToShuffle = 0; timesToShuffle < 10; timesToShuffle++)
@@ -956,7 +938,6 @@ public class GameScreen : ConsoleUpgrade
             Index = 0;
             Deck.Reset();
             round++;
-
         } while (!exit);
     }
 }

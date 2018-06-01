@@ -88,7 +88,7 @@ public class WelcomeScreen
                 Console.WriteLine("Introduce tu nombre de usuario #" + (i + 1) + ": ");
                 name[i] = Console.ReadLine();
             } while (name[i] == "");
-            Console.WriteLine("Bievenido a PokerMasters {0}!", name[i]);
+            Console.WriteLine("Bienvenido a PokerMasters {0}!", name[i]);
         }
         return name;
     }
@@ -145,7 +145,6 @@ public class WelcomeScreen
                     Console.Clear();
                     break;
                 case "6":
-                    exit = true;
                     DisplayEsp();
                     break;
                 case "Q":
@@ -216,7 +215,6 @@ public class WelcomeScreen
                     Console.Clear();
                     break;
                 case "6":
-                    exit = true;
                     Display();
                     break;
                 case "Q":

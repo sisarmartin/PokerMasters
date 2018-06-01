@@ -47,13 +47,12 @@ public class CreditsScreen : WelcomeScreen
             Console.Clear();
             int x = 140;
             int y = 35;
+            Console.CursorVisible = false;
             Console.SetCursorPosition((x / 2) - (names[i].Length / 2),
                 y / 2);
             Console.WriteLine(names[i]);
             Thread.Sleep(2000);
         }
-        
-        Display();
     }
 
     public void RunEsp()
@@ -64,12 +63,11 @@ public class CreditsScreen : WelcomeScreen
             Console.Clear();
             int x = 140;
             int y = 35;
+            Console.CursorVisible = false;
             Console.SetCursorPosition((x / 2) - (namesEsp[i].Length / 2),
                 y / 2);
             Console.WriteLine(namesEsp[i]);
             Thread.Sleep(2000);
         }
-
-        DisplayEsp();
     }
 }

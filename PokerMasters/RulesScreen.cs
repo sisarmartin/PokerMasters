@@ -54,29 +54,29 @@ class RulesScreen
         "revelan las manos, y el jugador con la mano ganadora toma el bote.";
 
     private string[] listOfHands = {
-        "Royal Flush",
-        "Straight Flush",
-        "Four of a kind",
-        "Full House",
-        "Flush",
-        "Straight",
-        "Three of a kind",
-        "Two pair",
-        "One pair",
-        "High card",
+        "1.- Royal Flush",
+        "2.- Straight Flush",
+        "3.- Four of a kind",
+        "4.- Full House",
+        "5.- Flush",
+        "6.- Straight",
+        "7.- Three of a kind",
+        "8.- Two pair",
+        "9.- One pair",
+        "10.- High card",
     };
 
     private string[] listOfHandsEsp = {
-        "Escalera Real",
-        "Escalera de Color",
-        "Póker",
-        "Full",
-        "Color",
-        "Escalera",
-        "Trío",
-        "Doble pareja",
-        "Pareja",
-        "Carta alta",
+        "1.- Escalera Real",
+        "2.- Escalera de Color",
+        "3.- Póker",
+        "4.- Full",
+        "5.- Color",
+        "6.- Escalera",
+        "7.- Trío",
+        "8.- Doble pareja",
+        "9.- Pareja",
+        "10.- Carta alta",
     };
 
     public void ShowMenu()
@@ -124,7 +124,7 @@ class RulesScreen
     public void Display()
     {
         ShowMenu();
-        Console.SetCursorPosition(70 / 2, 17 / 2);
+        Console.SetCursorPosition(0, 17 / 2);
         Console.WriteLine(text);
         ShowNext();
         string press = Console.ReadLine();
@@ -134,17 +134,17 @@ class RulesScreen
             if (press == "")
             {
                 Console.Clear();
+                byte j = 12;
                 for (int i = 0; i < listOfHands.Length; i++)
-                {    
+                {
+                    Console.SetCursorPosition(62, j);
                     Console.WriteLine(listOfHands[i]);
+                    j++;
                 }
                 ShowExit();
             }
             press = Console.ReadLine().ToUpper();
         } while (press != "Q");
-        Console.Clear();
-        WelcomeScreen welcome = new WelcomeScreen();
-        welcome.Display();
     }
 
     public void DisplayEsp()
@@ -160,16 +160,16 @@ class RulesScreen
             if (press == "")
             {
                 Console.Clear();
+                byte j = 12;
                 for (int i = 0; i < listOfHandsEsp.Length; i++)
                 {
+                    Console.SetCursorPosition(62, j);
                     Console.WriteLine(listOfHandsEsp[i]);
+                    j++;
                 }
                 ShowExitEsp();
             }
             press = Console.ReadLine().ToUpper();
         } while (press != "Q");
-        Console.Clear();
-        WelcomeScreen welcome = new WelcomeScreen();
-        welcome.DisplayEsp();
     }
 }

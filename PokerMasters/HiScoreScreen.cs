@@ -8,7 +8,6 @@ class HiScoreScreen
 
     public void ShowMenu()
     {
-        Console.SetCursorPosition(53, 0);
         Console.WriteLine("---------- PokerMasters ----------");
         Console.SetCursorPosition(53, 1);
         Console.WriteLine("  -------- High Scores --------");
@@ -24,6 +23,26 @@ class HiScoreScreen
         Console.WriteLine();
     }
 
+    public void ShowExit()
+    {
+        Console.WriteLine("Press Q to go back...");
+    }
+
+    public void ShowExitEsp()
+    {
+        Console.WriteLine("Pulsa Q para volver...");
+    }
+
+    public void ShowNext()
+    {
+        Console.WriteLine("Press Enter to continue...");
+    }
+
+    public void ShowNextEsp()
+    {
+        Console.WriteLine("Pulsa Enter para continuar...");
+    }
+
     public void Run()
     {
         string press;
@@ -31,8 +50,6 @@ class HiScoreScreen
         do
         {
             ShowMenu();
-            // To do
-
             ConsoleUpgrade.ShowScores();
 
             try
@@ -47,44 +64,42 @@ class HiScoreScreen
                     if (line != null)
                     {
                         Console.WriteLine(line);
+                        if (line.Length % 5 == 4)
+                        {
+                            Console.CursorVisible = false;
+                            Console.ReadLine();
+                            Console.Clear();
+                            ShowMenu();
+                        }
                     }
                 } while (line != null);
                 input.Close();
             }
             catch (PathTooLongException)
             {
-                Console.SetCursorPosition(119, 33);
                 Console.WriteLine("Entered path was too long.");
                 return;
             }
             catch (FileNotFoundException)
             {
-                Console.SetCursorPosition(119, 33);
                 Console.WriteLine("File not found.");
                 return;
             }
             catch (IOException exp)
             {
-                Console.SetCursorPosition(119, 33);
                 Console.WriteLine("Input/output error: {0}", exp.Message);
                 return;
             }
             catch (Exception exp)
             {
-                Console.SetCursorPosition(119, 33);
                 Console.WriteLine("Unexpected error: {0}", exp.Message);
                 return;
             }
-            Console.SetCursorPosition(119, 33);
             Console.WriteLine("Extraction finished");
+            ShowExit();
 
-            Console.WriteLine();
-            Console.WriteLine("Press Q to return...");
             press = Console.ReadLine().ToUpper();
         } while (press != "Q");
-        Console.Clear();
-        WelcomeScreen welcome = new WelcomeScreen();
-        welcome.Display();
     }
 
     public void RunEsp()
@@ -94,7 +109,7 @@ class HiScoreScreen
         do
         {
             ShowMenuEsp();
-            // To do
+            ShowNextEsp();
 
             ConsoleUpgrade.ShowScoresEsp();
 
@@ -110,43 +125,42 @@ class HiScoreScreen
                     if (line != null)
                     {
                         Console.WriteLine(line);
+                        if (line.Length % 5 == 4)
+                        {
+                            Console.CursorVisible = false;
+                            Console.ReadLine();
+                            Console.Clear();
+                            ShowMenuEsp();
+                            ShowNextEsp();
+                        }
                     }
                 } while (line != null);
                 input.Close();
             }
             catch (PathTooLongException)
             {
-                Console.SetCursorPosition(119, 33);
                 Console.WriteLine("La ruta introducida era demasiado larga.");
                 return;
             }
             catch (FileNotFoundException)
             {
-                Console.SetCursorPosition(119, 33);
                 Console.WriteLine("Fichero no encontrado.");
                 return;
             }
             catch (IOException exp)
             {
-                Console.SetCursorPosition(119, 33);
                 Console.WriteLine("Error salida/entrada: {0}", exp.Message);
                 return;
             }
             catch (Exception exp)
             {
-                Console.SetCursorPosition(119, 33);
                 Console.WriteLine("Error inesperado: {0}", exp.Message);
                 return;
             }
-            Console.SetCursorPosition(119, 33);
             Console.WriteLine("Extraído correctamente");
+            ShowExitEsp();
 
-            Console.WriteLine();
-            Console.WriteLine("Pulsa Q para volver...");
             press = Console.ReadLine().ToUpper();
         } while (press != "Q");
-        Console.Clear();
-        WelcomeScreen welcome = new WelcomeScreen();
-        welcome.DisplayEsp();
     }
 }
